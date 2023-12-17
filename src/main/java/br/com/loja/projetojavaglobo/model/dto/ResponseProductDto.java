@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class ResponseProdutoDto {
+public class ResponseProductDto {
     private String name;
     private String description;
     private BigDecimal price;

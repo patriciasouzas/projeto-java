@@ -1,13 +1,16 @@
 package br.com.loja.projetojavaglobo.model.entities;
 
-import br.com.loja.projetojavaglobo.model.dto.ResponseProdutoDto;
+import br.com.loja.projetojavaglobo.model.dto.ResponseProductDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -16,17 +19,22 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Produto {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotEmpty(message = "O nome não pode estar em branco.")
+    @Length(max = 100)
     private String name;
+    @NotEmpty(message = "Campo descrição precisa ser preenchido.")
+    @Length(min = 5, max = 300)
     private String description;
+    @NotNull(message = "Campo preço precisa ser preenchido.")
     private BigDecimal price;
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    public ResponseProdutoDto toProdutoDto(){
-        ResponseProdutoDto dto = new ResponseProdutoDto();
+    public ResponseProductDto toProductDto(){
+        ResponseProductDto dto = new ResponseProductDto();
         dto.setName(this.name);
         dto.setDescription(this.description);
         dto.setPrice(this.price);
