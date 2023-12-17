@@ -1,6 +1,7 @@
 package br.com.loja.projetojavaglobo.model.entities;
 
 import br.com.loja.projetojavaglobo.model.dto.ResponseProductDto;
+import br.com.loja.projetojavaglobo.model.dto.ResponseUpdateProductDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,6 +33,7 @@ public class Product {
     @NotNull(message = "Campo preço precisa ser preenchido.")
     private BigDecimal price;
     private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime updatedAt;
 
     public ResponseProductDto toProductDto(){
         ResponseProductDto dto = new ResponseProductDto();
@@ -39,6 +41,16 @@ public class Product {
         dto.setDescription(this.description);
         dto.setPrice(this.price);
         dto.setCreatedAt(this.createdAt);
+
+        return dto;
+    }
+    public ResponseUpdateProductDto toUpdateProductDto(){
+        ResponseUpdateProductDto dto = new ResponseUpdateProductDto();
+        dto.setName(this.name);
+        dto.setDescription(this.description);
+        dto.setPrice(this.price);
+        dto.setCreatedAt(this.createdAt);
+        dto.setUpdatedAt(LocalDateTime.now());
 
         return dto;
     }
