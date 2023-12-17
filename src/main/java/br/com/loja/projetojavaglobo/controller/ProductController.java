@@ -28,19 +28,14 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> findProdutos() {
-        List<Product> products = productService.findAllProducts();
-        return ResponseEntity.ok(products);
+    public List<Product> findProdutos() {
+        return productService.findAllProducts();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseProductDto> findProdutoById(@PathVariable Long id) {
-        try {
-            Product product = productService.findById(id);
-            return ResponseEntity.ok(product.toProductDto());
-        } catch (ProductNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+        Product product = productService.findProductById(id);
+        return ResponseEntity.ok(product.toProductDto());
     }
 
     @DeleteMapping("/{id}")

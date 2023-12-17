@@ -4,18 +4,16 @@ import br.com.loja.projetojavaglobo.exceptions.ProductNotFoundException;
 import br.com.loja.projetojavaglobo.model.dto.RequestProductDto;
 import br.com.loja.projetojavaglobo.model.entities.Product;
 import br.com.loja.projetojavaglobo.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
-    @Autowired
-    public ProductService(ProductRepository productRepository){
-        this.productRepository = productRepository;
-    }
     public Product createProduct(RequestProductDto requestProductDto){
         var product = new Product();
         product.setName(requestProductDto.getName());
@@ -28,12 +26,20 @@ public class ProductService {
     }
 
     public List<Product> findAllProducts() {
-        return productRepository.findAll();
+        List<Product> productList = productRepository.findAll();
+
+        if (productList.isEmpty()) throw new ProductNotFoundException("Não foram encontrados produtos cadastrados em nossa base de dados.");
+
+        return productList;
     }
 
-    public Product findById(Long id) {
-        return productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException("Produto não encontrado com Id: " + id));
+    public Product findProductById(Long id) {
+        Optional<Product> productOptional = productRepository.findById(id);
+
+        if (productOptional.isEmpty()) {
+            throw new ProductNotFoundException("Produto não encontrado com Id: \" + id");
+        }
+        return productOptional.get();
     }
 
    public void deleteProduct(Long id) {
