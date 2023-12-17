@@ -2,7 +2,9 @@ package br.com.loja.projetojavaglobo.controller;
 
 import br.com.loja.projetojavaglobo.exceptions.ProductNotFoundException;
 import br.com.loja.projetojavaglobo.model.dto.RequestProductDto;
+import br.com.loja.projetojavaglobo.model.dto.RequestUpdateProductDto;
 import br.com.loja.projetojavaglobo.model.dto.ResponseProductDto;
+import br.com.loja.projetojavaglobo.model.dto.ResponseUpdateProductDto;
 import br.com.loja.projetojavaglobo.model.entities.Product;
 import br.com.loja.projetojavaglobo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,17 @@ public class ProductController {
     public ResponseEntity<ResponseProductDto> findProdutoById(@PathVariable Long id) {
         Product product = productService.findProductById(id);
         return ResponseEntity.ok(product.toProductDto());
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ResponseUpdateProductDto> updateProduct(
+            @PathVariable Long id,
+            @RequestBody RequestUpdateProductDto requestUpdateProductDto)
+    {
+        Product updateProduct = productService.updateProduct(id, requestUpdateProductDto);
+
+        if (updateProduct != null) return ResponseEntity.ok(updateProduct.toUpdateProductDto());
+        else return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
