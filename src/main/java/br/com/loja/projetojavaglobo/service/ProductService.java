@@ -64,6 +64,7 @@ public class ProductService {
                 existingProduct.setPrice(updateProduct.getPrice());
             }
 
+
             return productRepository.save(existingProduct);
         }
 
@@ -78,8 +79,8 @@ public class ProductService {
         }
     }
     public void validateDescriptionLength(String description){
-        if (description.length() <= 5 || description.length() >= 300){
-            throw new DescriptionLengthException("O tamanho da descrição precisa ser maior 5 e menor que 300.");
+        if (description.length() <= 5 || description.length() >= 150){
+            throw new DescriptionLengthException("O tamanho da descrição precisa ser maior 5 e menor que 150.");
         }
     }
     public void validateNameLength(String name){
@@ -87,7 +88,7 @@ public class ProductService {
             throw new NameLengthException("O tamanho do nome precisa ser até 50.");
         }
     }
-    private void validatePrice(BigDecimal value) {
+    public void validatePrice(BigDecimal value) {
         final String message = String.format("O valor %s é inválido.", value);
 
         if (value == null) {

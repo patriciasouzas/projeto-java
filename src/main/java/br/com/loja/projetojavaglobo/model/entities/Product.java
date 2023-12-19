@@ -28,7 +28,7 @@ public class Product {
     @Length(max = 100)
     private String name;
     @NotEmpty(message = "Campo descrição precisa ser preenchido.")
-    @Length(min = 5, max = 300)
+    @Length(min = 5, max = 150)
     private String description;
     @NotNull(message = "Campo preço precisa ser preenchido.")
     private BigDecimal price;
